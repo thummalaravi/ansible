@@ -7,7 +7,7 @@
 
 
 
-# creating roles >>>>>> ansible/roles/tasks/main.yml
+# creating roles >>>>>> ansible/roles/control/tasks/main.yml
 --
 # tasks file for control
   - name: install tools
