@@ -1,0 +1,48 @@
+---
+- hosts:  webservers
+  become: true
+  become_method: sudo
+  tasks:
+
+   - name: Remove old files srv
+     file:
+       path: /srv
+       state: absent
+
+   - name: Remove old files in html
+     file:
+       path: /var/www/html/
+       state: absent
+
+   - name: clone github
+     git:
+       repo: https://github.com/thummalaravi/website.git
+       dest: /srv
+       clone: yes
+       force: yes
+
+   - name: move
+     command: mv /srv /var/www/html
+
+- hosts:  web02
+  become: true
+  become_method: sudo
+  tasks:
+
+
+#   - ec2_snapshot:
+#     instance_id: i-06342dc8487e4af2b
+#     EC2_REGION: "us-east-2"
+
+# ami creation
+   - ec2_ami:
+       aws_access_key: xxxxxxxxxxxxxx
+       aws_secret_key: xxxxxxxxxxxxxxxxxx
+       region: us-east-2
+       instance_id: i-02cd1b159859431e3
+       wait: yes
+       name: ansible
+       tags:
+         Name: ansible
+         Service: TestService
+     register: image
