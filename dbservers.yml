@@ -1,0 +1,27 @@
+---
+- hosts:  dbservers
+  become: true
+  vars:
+     mysql_root_password: Fan@1221
+  tasks:
+  - name: "install mysql"
+    apt: name={{ item }} update_cache=yes cache_valid_time=3600 state=present
+    with_items:
+    - python-mysqldb
+    - mysql-server
+  - name: Start the MySQL service
+    service:
+      name: mysql
+      state: started
+      enabled: true
+  - name: update mysql root password for root account and create ravi account
+    mysql_user:
+      name: ravi
+      host: "{{ item }}"
+      password: "{{ mysql_root_password }}"
+      login_user: root
+      login_password: "{{ mysql_root_password }}"
+      check_implicit_admin: yes
+      priv: "*.*:ALL,GRANT"
+    with_items:
+      - localhost
