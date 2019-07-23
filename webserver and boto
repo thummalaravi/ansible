@@ -1,0 +1,17 @@
+---
+- hosts:  control
+  become: true
+  tasks:
+    #install nginx
+    - name: "install nginx"
+      apt: "name=nginx state=present update_cache=yes"
+    #install pip
+    - name: Install pip
+      apt: "name=python-pip update_cache=yes  state=present"
+    # install boto, boto3,botocore
+    - pip:
+        name: "{{ item }}"
+      with_items:
+        - boto
+        - boto3
+        - botocore
