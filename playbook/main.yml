@@ -1,5 +1,5 @@
 ---
-- hosts:  dbservers
+- hosts:  control
   become: true
   vars:
      mysql_root_password: Fan@1221
