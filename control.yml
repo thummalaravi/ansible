@@ -1,5 +1,5 @@
 ---
-- hosts:  webservers
+- hosts:  control
   become: true
   roles:
    - control
@@ -14,5 +14,5 @@
     apt: name={{item}} state=present update_cache=yes
     with_items:
      - curl
-     - python-httplib2
+     - nginx
 ...
